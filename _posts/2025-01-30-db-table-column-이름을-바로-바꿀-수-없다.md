@@ -14,6 +14,8 @@ tags:
 description: 무중단 서비스의 column 이름은 절차대로 변경이 필요하다
 ---
 
+![git](/assets/image/2025-01-30.webp)
+
 # column 이름이 이상하다
 신입 개발자로 입사 초기 때 일이다. 담당한 기능 개발 관련하여 RDB Table에 column 1개 추가가 필요했다. column 추가를 위해서는 작성한 쿼리를 DBA분께 전달하며 요청을 드려야 했고, 나는 간단한 쿼리를 작성했다.
 ```sql

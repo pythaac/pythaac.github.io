@@ -6,6 +6,7 @@ toc: true
 comments: true
 categories:
 - 수첩
+- Git
 tags:
 - Git
 - Github

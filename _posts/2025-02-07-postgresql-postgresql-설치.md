@@ -87,14 +87,78 @@ psql -U test -d test -h localhost -p 5432
 \q
 ```
 
+## 환경설정
+
+### container 접속
+```
+docker ps -a
+docker exec -it {CONTAINER ID} /bin/bash
+```
+
+### vim 설치
+```
+apt update
+apt install vim
+```
+
+### .bashrc 생성
+```
+mkdir /home/root
+vi /home/root/.bashrc
+```
+
 #### .bashrc에 환경변수 저장
 
 ```
 export PATH=$PATH:/usr/lib/postgresql/16/bin
-export PGDATA=/var/lib/postgresql/16/main/
-export PGCONF=/etc/postgresql/16/main/
-export PGHOME=/var/lib/postgresql/
+export PGDATA=/var/lib/postgresql/data
+export PGCONF=/var/lib/postgresql/data
+export PGHOME=/var/lib/postgresql
 export PGDATABASE=test
 export PGPORT=5432
 export PGPASSWORD=test
 ```
+
+
+#### postgresql.conf 주석 해제
+```
+vi $PGCONF/postgresql.conf
+```
+- log_destination
+- loggin_collector = on
+- log_directory
+- log_filename = 'postgresql-%A.log'
+- log_file_mode
+- log_rotation_age
+- log_rotation_size
+- log_truncate_on_rotation
+- log_timezone = 'Asia/Seoul'
+
+#### pg_hba.conf 수정
+```
+vi $PGCONF/pg_hba.conf
+```
+IPv4 local connections에 아래 내용 추가
+```
+host    all             all             0.0.0.0/0               trust
+```
+
+
+## DBeaver 설치
+[https://dbeaver.io/download/](https://dbeaver.io/download/)
+
+## Docker Image Snapshot
+
+#### Docker Image를 dockerhub에 저장
+```
+docker ps
+docker commit {CONTAINER ID} pythaac/postgresql:1.0
+docker login
+docker push pythaac/postgresql:1.0
+```
+
+#### Image 동작 확인
+```
+docker run -it --name test -p 5432:5432 -d pythaac/postgresql:1.0
+```
+psql로 기존 docker daemon과 같은 ID/PW로 접속 가능
